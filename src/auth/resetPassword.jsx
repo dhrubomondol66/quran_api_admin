@@ -24,7 +24,7 @@ const inputStyle = {
 };
 
 // Call your API base however you normally do it
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_URL || "https://quran-backend-t6hz.onrender.com";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
