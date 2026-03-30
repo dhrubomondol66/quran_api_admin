@@ -98,10 +98,16 @@ export async function forgotPassword({ email }) {
  * @returns {{ message: string }}
  */
 export async function resetPassword({ token, password }) {
-  return request("/admin/admin-reset-password", {
-    method: "POST",
-    data: { token, password },
-  });
+  // Backend expects token and password as query parameters, not in request body
+  try {
+    return await request(`/admin/admin-reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`, {
+      method: "POST",
+      data: {}, // Empty body since token and password are in query params
+    });
+  } catch (error) {
+    console.log('Reset password error:', error.response?.data);
+    throw error;
+  }
 }
 
 // ─── Logout ───────────────────────────────────────────────────────────────────

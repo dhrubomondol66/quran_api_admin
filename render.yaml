@@ -1,9 +1,9 @@
 services:
   - type: web
-    name: your-app
+    name: quran-dashboard
     env: static
     buildCommand: npm run build
-    staticPublishPath: build
+    staticPublishPath: dist
     routes:
       - type: rewrite
         source: /*
