@@ -64,11 +64,11 @@ const ResetPassword = () => {
 
     setLoading(true);
     try {
-      // Backend expects both token and password as query parameters
-      const res = await fetch(`${API_BASE}/admin/admin-reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`, {
+      // Backend expects token, password, and confirm_password as query parameters
+      const res = await fetch(`${API_BASE}/admin/admin-reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}&confirm_password=${encodeURIComponent(confirm)}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}), // Empty body since token and password are in query params
+        body: JSON.stringify({}), // Empty body since all params are in query params
       });
 
       const data = await res.json();
