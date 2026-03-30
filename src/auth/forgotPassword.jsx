@@ -11,7 +11,7 @@ const authBg = {
   background: "radial-gradient(ellipse at 60% 40%, #2d5a3d 0%, #0f2018 60%, #06110c 100%)",
 };
 const cardStyle = {
-  background: "rgba(30,60,40,0.85)",
+  background: "rgba(255, 255, 255, 0.04)",
   backdropFilter: "blur(20px)",
   border: "1px solid rgba(201,168,76,0.2)",
   boxShadow: "0 32px 64px rgba(0,0,0,0.4)",

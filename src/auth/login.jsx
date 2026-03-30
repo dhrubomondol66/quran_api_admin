@@ -57,7 +57,7 @@ const Login = () => {
       <div
         className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12 animate-[fadeUp_0.4s_ease]"
         style={{
-          background: "rgba(30,60,40,0.85)",
+          background: "rgba(255, 255, 255, 0.04)",
           backdropFilter: "blur(20px)",
           border: "1px solid rgba(201,168,76,0.2)",
           boxShadow: "0 32px 64px rgba(0,0,0,0.4)",
