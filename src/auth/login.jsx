@@ -4,6 +4,7 @@ import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import QariLogo from "../components/QariLogo";
 import { login } from "../services/auth";
 import { useNavigate } from "react-router-dom";
+import backgroundimg from "../assets/Desktop - 2.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -43,12 +44,15 @@ const Login = () => {
   return (
     <div
       className="fixed inset-0 flex items-center justify-center overflow-hidden"
-      style={{ background: "radial-gradient(ellipse at 60% 40%, #2d5a3d 0%, #0f2018 60%, #06110c 100%)" }}
+      style={{
+        backgroundImage: `url(${backgroundimg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
     >
-      {/* texture overlay */}
-      <div className="absolute inset-0 opacity-[0.03]"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-rule='evenodd'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")` }}
-      />
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black/40" />
 
       <div
         className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12 animate-[fadeUp_0.4s_ease]"

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Lock, Eye, EyeOff, CheckCircle } from "lucide-react";
 import QariLogo from "../components/QariLogo";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import backgroungimg from "../assets/Desktop - 2.png";
 
 const authBg = {
   background: "radial-gradient(ellipse at 60% 40%, #2d5a3d 0%, #0f2018 60%, #06110c 100%)",
@@ -36,7 +37,9 @@ const ResetPassword = () => {
   // Guard: no token
   if (!token) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center" style={authBg}>
+      <div className="fixed inset-0 flex items-center justify-center overflow-hidden" style={authBg}>
+        {/* Dark overlay for better readability */}
+        <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12 text-center" style={cardStyle}>
           <QariLogo />
           <p className="text-[#e57368] mt-4">Invalid or missing reset link.</p>
@@ -90,7 +93,9 @@ const ResetPassword = () => {
 
   // Success screen
   if (done) return (
-    <div className="fixed inset-0 flex items-center justify-center" style={authBg}>
+    <div className="fixed inset-0 flex items-center justify-center overflow-hidden" style={authBg}>
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12" style={cardStyle}>
         <QariLogo />
         <div
@@ -118,7 +123,9 @@ const ResetPassword = () => {
 
   // Password reset form
   return (
-    <div className="fixed inset-0 flex items-center justify-center" style={authBg}>
+    <div className="fixed inset-0 flex items-center justify-center overflow-hidden" style={authBg}>
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12" style={cardStyle}>
         <QariLogo />
         <h2 className="text-white text-[26px] font-semibold text-center mb-2 font-serif">

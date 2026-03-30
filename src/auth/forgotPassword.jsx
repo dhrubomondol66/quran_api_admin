@@ -1,15 +1,11 @@
 // ============================================================
-// auth/ForgotPassword.jsx  — no changes needed to the UI,
-// but the flow now matches a real token-in-link approach.
-// The "Enter Reset Code" button is removed — the user clicks
-// the link in their email instead.
-// ============================================================
-
+// auth/ForgotPassword.jsx
 import React, { useState } from "react";
-import { Mail, ArrowLeft, CheckCircle } from "lucide-react";
+import { Mail, CheckCircle, ArrowLeft } from "lucide-react";
 import QariLogo from "../components/QariLogo";
 import { forgotPassword } from "../services/auth";
 import { useNavigate } from "react-router-dom";
+import backgroungimg from "../assets/Desktop - 2.png";
 
 const authBg = {
   background: "radial-gradient(ellipse at 60% 40%, #2d5a3d 0%, #0f2018 60%, #06110c 100%)",
@@ -54,7 +50,17 @@ const ForgotPassword = () => {
 
   // ── Sent confirmation screen ──────────────────────────────
   if (sent) return (
-    <div className="fixed inset-0 flex items-center justify-center" style={authBg}>
+    <div 
+      className="fixed inset-0 flex items-center justify-center overflow-hidden"
+      style={{
+        backgroundImage: `url(${backgroungimg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12" style={cardStyle}>
         <QariLogo />
         <div
@@ -94,7 +100,17 @@ const ForgotPassword = () => {
 
   // ── Email input screen ────────────────────────────────────
   return (
-    <div className="fixed inset-0 flex items-center justify-center" style={authBg}>
+    <div 
+      className="fixed inset-0 flex items-center justify-center overflow-hidden"
+      style={{
+        backgroundImage: `url(${backgroungimg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12" style={cardStyle}>
         <QariLogo />
         <button
