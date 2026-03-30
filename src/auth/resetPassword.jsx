@@ -72,9 +72,16 @@ const ResetPassword = () => {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Reset failed.");
+      
+      // Log the error response for debugging
+      if (!res.ok) {
+        console.log('Reset password error response:', data);
+        throw new Error(data.detail || data.message || data.error || "Reset failed.");
+      }
+      
       setDone(true);
     } catch (err) {
+      console.log('Reset password error:', err);
       setError(err.message);
     } finally {
       setLoading(false);

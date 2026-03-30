@@ -100,12 +100,29 @@ export async function forgotPassword({ email }) {
 export async function resetPassword({ token, password, confirm_password }) {
   // Backend expects token, password, and confirm_password as query parameters, not in request body
   try {
-    return await request(`/admin/admin-reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}&confirm_password=${encodeURIComponent(confirm_password)}`, {
+    const response = await request(`/admin/admin-reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}&confirm_password=${encodeURIComponent(confirm_password)}`, {
       method: "POST",
       data: {}, // Empty body since all params are in query params
     });
+    return response;
   } catch (error) {
     console.log('Reset password error:', error.response?.data);
+    
+    // Handle specific error cases
+    if (error.response?.status === 400) {
+      const errorData = error.response.data;
+      const errorMessage = errorData.detail || errorData.message || errorData.error || 'Invalid reset request';
+      
+      // Check for common error patterns
+      if (errorMessage.toLowerCase().includes('token')) {
+        throw new Error('Invalid or expired reset token. Please request a new password reset.');
+      } else if (errorMessage.toLowerCase().includes('password')) {
+        throw new Error('Password validation failed. Please ensure your password meets the requirements.');
+      } else {
+        throw new Error(errorMessage);
+      }
+    }
+    
     throw error;
   }
 }
