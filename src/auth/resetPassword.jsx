@@ -1,9 +1,4 @@
-// ============================================================
-// auth/ResetPassword.jsx  — NEW FILE
-// Rendered when admin clicks the link in their email:
-//   /reset-password?token=<token>
-// ============================================================
-
+// auth/ResetPassword.jsx
 import React, { useState } from "react";
 import { Lock, Eye, EyeOff, CheckCircle } from "lucide-react";
 import QariLogo from "../components/QariLogo";
@@ -23,7 +18,7 @@ const inputStyle = {
   border: "1px solid rgba(255,255,255,0.12)",
 };
 
-// Call your API base however you normally do it
+// Backend URL from environment
 const API_BASE = import.meta.env.VITE_API_URL || "https://quran-backend-t6hz.onrender.com";
 
 const ResetPassword = () => {
@@ -38,7 +33,7 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Guard: no token in URL
+  // Guard: no token
   if (!token) {
     return (
       <div className="fixed inset-0 flex items-center justify-center" style={authBg}>
@@ -53,6 +48,7 @@ const ResetPassword = () => {
     );
   }
 
+  // Handle password reset
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -68,13 +64,13 @@ const ResetPassword = () => {
 
     setLoading(true);
     try {
-      // POST /admin/admin-reset-password?token=...&password=...
-      const res = await fetch(
-        `${API_BASE}/admin/admin-reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`,
-        { method: "POST" }
-      );
-      const data = await res.json();
+      const res = await fetch(`${API_BASE}/admin/admin-reset-password?token=${encodeURIComponent(token)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
 
+      const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Reset failed.");
       setDone(true);
     } catch (err) {
@@ -84,7 +80,7 @@ const ResetPassword = () => {
     }
   };
 
-  // ── Success screen ────────────────────────────────────────
+  // Success screen
   if (done) return (
     <div className="fixed inset-0 flex items-center justify-center" style={authBg}>
       <div className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12" style={cardStyle}>
@@ -112,7 +108,7 @@ const ResetPassword = () => {
     </div>
   );
 
-  // ── New password form ─────────────────────────────────────
+  // Password reset form
   return (
     <div className="fixed inset-0 flex items-center justify-center" style={authBg}>
       <div className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12" style={cardStyle}>
@@ -134,7 +130,6 @@ const ResetPassword = () => {
         )}
 
         <form onSubmit={handleSubmit}>
-          {/* New password */}
           <div className="relative mb-3.5">
             <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
             <input
@@ -155,7 +150,6 @@ const ResetPassword = () => {
             </button>
           </div>
 
-          {/* Confirm password */}
           <div className="relative mb-5">
             <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
             <input
