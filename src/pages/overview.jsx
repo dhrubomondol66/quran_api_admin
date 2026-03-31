@@ -16,7 +16,7 @@ const Card = ({ label, value, icon, dark }) => (
         {icon}
       </div>
     </div>
-    <div className={`font-bold text-[30px] leading-none font-serif ${dark ? "text-white" : "text-[#1a2a1e]"}`}>{value}</div>
+    <div className={`font-bold text-[30px] leading-none font-sans ${dark ? "text-white" : "text-[#1a2a1e]"}`}>{value}</div>
     <div className={`text-[11px] mt-1.5 ${dark ? "text-white/45" : "text-[#5a6b5e]"}`}>
       {dark ? "Updated in real time" : "Last updated recently"}
     </div>
@@ -74,7 +74,7 @@ const Overview = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-4 gap-4 mb-6 font-sans">
         
         <Card label="Total Users" value={stats?.total_users || 0} icon={<Users size={15} />} dark />
         <Card label="Revenue" value={`$${stats?.total_revenue || 0}`} icon={<DollarSign size={15} />} />
@@ -102,6 +102,9 @@ const Overview = () => {
             </div>
             <select className="text-[12px] text-[#5a6b5e] border border-[#e8eae8] rounded-md px-2.5 py-1 bg-white cursor-pointer">
               <option>Last 7 Days</option>
+              <option>Last 1 Month</option>
+              <option>Last 3 Months</option>
+              <option>Last 6 Months</option>
             </select>
           </div>
 
@@ -110,8 +113,8 @@ const Overview = () => {
               <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "#5a6b5e" }} />
               <YAxis hide />
               <Tooltip cursor={{ fill: "rgba(0,0,0,0.03)" }} contentStyle={{ borderRadius: 8, border: "1px solid #e8eae8", fontSize: 12 }} />
-              <Bar dataKey="free" fill="#1a3a2a" radius={[4, 4, 0, 0]} maxBarSize={20} />
-              <Bar dataKey="premium" fill="#c9a84c" radius={[4, 4, 0, 0]} maxBarSize={20} />
+              <Bar dataKey="free" fill="#1a3a2a" radius={[4, 4, 0, 0]} maxBarSize={40} />
+              <Bar dataKey="premium" fill="#c9a84c" radius={[4, 4, 0, 0]} maxBarSize={40} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -122,6 +125,9 @@ const Overview = () => {
             <div className="text-[15px] font-semibold text-[#1a2a1e]">Revenue Growth</div>
             <select className="text-[12px] text-[#5a6b5e] border border-[#e8eae8] rounded-md px-2.5 py-1 bg-white cursor-pointer">
               <option>Last 7 Days</option>
+              <option>Last 1 Month</option>
+              <option>Last 3 Months</option>
+              <option>Last 6 Months</option>
             </select>
           </div>
 

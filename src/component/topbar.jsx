@@ -1,11 +1,27 @@
 // component/TopBar.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, Bell, Search } from "lucide-react";
+import { getCurrentAdminUsername } from "../services/components";
 
 const TopBar = ({ onMenuClick }) => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const [adminUsername, setAdminUsername] = useState("Admin");
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const username = await getCurrentAdminUsername();
+        setAdminUsername(username);
+      } catch (error) {
+        console.error('Failed to fetch admin username:', error);
+        setAdminUsername("Admin");
+      }
+    };
+    
+    fetchUsername();
+  }, []);
 
   return (
     <header className="">
@@ -32,19 +48,19 @@ const TopBar = ({ onMenuClick }) => {
           {/* Right side */}
           <div className="flex items-end gap-3 ml-auto">
           {/* Notifications */}
-  <button className="relative p-2 rounded-lg text-[#5a6b5e] hover:bg-[#f0f4f1] bg-transparent border-none cursor-pointer transition-colors">
+  {/* <button className="relative p-2 rounded-lg text-[#5a6b5e] hover:bg-[#f0f4f1] bg-transparent border-none cursor-pointer transition-colors">
     <Bell size={18} />
     <div className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#c9a84c] rounded-full" />
-  </button>
+  </button> */}
 
-  {/* Profile */}
+      {/* Profile */}
   <button
     onClick={() => navigate("/profile-setting")}
     className="flex items-center gap-2.5 pl-3 pr-1 py-1 rounded-[10px] hover:bg-[#f0f4f1] bg-transparent border-none cursor-pointer transition-colors"
   >
     <div className="text-right hidden sm:block">
       <div className="text-[13px] font-semibold text-[#1a2a1e]">
-        {user.name || "Admin"}
+        {adminUsername || user.name || "Admin"}
       </div>
       <div className="text-[11px] text-[#5a6b5e]">
         {user.email || "Super Admin"}

@@ -18,6 +18,7 @@ const UserManagement = () => {
     per_page: 10,
     total_pages: 0,
   });
+  const [dropdownOpen, setDropdownOpen] = useState(null); // Track which dropdown is open
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -58,6 +59,16 @@ const UserManagement = () => {
 
   const getFullName = (firstName, lastName) => {
     return `${firstName || ""} ${lastName || ""}`.trim();
+  };
+
+  const handleUserAction = async (userId, action) => {
+    console.log(`Action: ${action} for user: ${userId}`);
+    // TODO: Implement actual API calls for user actions
+    setDropdownOpen(null); // Close dropdown after action
+  };
+
+  const toggleDropdown = (userId) => {
+    setDropdownOpen(dropdownOpen === userId ? null : userId);
   };
 
   if (loading) {
@@ -135,9 +146,38 @@ const UserManagement = () => {
                   {user.joined || 'N/A'}
                 </td>
                 <td className="px-5 py-3.5 border-b border-[#e8eae8]">
-                  <button className="p-1 rounded-md text-[#888b88] hover:bg-[#f0f4f1] hover:text-[#1a2a1e] transition-colors">
-                    <MoreVertical size={16} />
-                  </button>
+                  <div className="relative">
+                    <button 
+                      onClick={() => toggleDropdown(user.id)}
+                      className="p-1 rounded-md text-[#888b88] hover:bg-[#f0f4f1] hover:text-[#1a2a1e] transition-colors"
+                    >
+                      <MoreVertical size={16} />
+                    </button>
+                    
+                    {/* Dropdown Menu */}
+                    {dropdownOpen === user.id && (
+                      <div className="absolute left-9 top-full mt-[-30px] w-32 bg-white border border-[#e8eae8] rounded-md shadow-lg z-10">
+                        <button
+                          onClick={() => handleUserAction(user.id, 'active')}
+                          className="w-full text-left px-3 py-2 text-[13px] text-[#1a2a1e] hover:bg-[#f0f4f1] transition-colors"
+                        >
+                          Active
+                        </button>
+                        <button
+                          onClick={() => handleUserAction(user.id, 'suspend')}
+                          className="w-full text-left px-3 py-2 text-[13px] text-[#5a6b5e] hover:bg-[#f0f4f1] transition-colors"
+                        >
+                          Suspend
+                        </button>
+                        <button
+                          onClick={() => handleUserAction(user.id, 'delete')}
+                          className="w-full text-left px-3 py-2 text-[13px] text-[#e57368] hover:bg-[#fef2f2] transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
