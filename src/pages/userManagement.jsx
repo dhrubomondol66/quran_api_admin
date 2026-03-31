@@ -1,7 +1,7 @@
 // pages/UserManagement.jsx
 import React, { useState, useEffect } from "react";
 import { Search, Filter, MoreVertical, ChevronLeft, ChevronRight } from "lucide-react";
-import { getUsers } from "../services/userManagement";
+import { getUsers, postUserActive, postUserSuspend, postUserDelete } from "../services/userManagement";
 
 const AVATAR_COLORS = [
   "#2d5a3d", "#1a3a2a", "#5a3d2d", "#2d3d5a", "#5a2d4a",
@@ -62,9 +62,108 @@ const UserManagement = () => {
   };
 
   const handleUserAction = async (userId, action) => {
-    console.log(`Action: ${action} for user: ${userId}`);
-    // TODO: Implement actual API calls for user actions
-    setDropdownOpen(null); // Close dropdown after action
+    try {
+      let result;
+      
+      switch (action) {
+        case 'active':
+          result = await postUserActive(userId);
+          console.log('User activated successfully:', result);
+          // Show success message or update UI
+          break;
+          
+        case 'suspend':
+          result = await postUserSuspend(userId);
+          console.log('User suspended successfully:', result);
+          // Show success message or update UI
+          break;
+          
+        case 'delete':
+          // Confirm before deleting
+          const confirmed = window.confirm('Are you sure you want to delete this user? This action cannot be undone.');
+          if (!confirmed) {
+            setDropdownOpen(null);
+            return;
+          }
+          
+          result = await postUserDelete(userId);
+          console.log('User deleted successfully:', result);
+          
+          // Refresh the user list after deletion
+          const fetchUsers = async () => {
+            try {
+              setLoading(true);
+              const params = {
+                page: currentPage,
+                per_page: pagination.per_page,
+              };
+              
+              if (search.trim()) {
+                params.search = search.trim();
+              }
+              
+              const data = await getUsers(params);
+              setUsers(data.users || []);
+              setPagination({
+                total: data.total || 0,
+                per_page: data.per_page || 10,
+                total_pages: data.total_pages || 0,
+              });
+            } catch (error) {
+              console.error("Error fetching users:", error);
+              setUsers([]);
+            } finally {
+              setLoading(false);
+            }
+          };
+          
+          fetchUsers();
+          break;
+          
+        default:
+          console.error('Unknown action:', action);
+      }
+      
+      // For active and suspend, also refresh the list to show updated status
+      if (action === 'active' || action === 'suspend') {
+        const fetchUsers = async () => {
+          try {
+            setLoading(true);
+            const params = {
+              page: currentPage,
+              per_page: pagination.per_page,
+            };
+            
+            if (search.trim()) {
+              params.search = search.trim();
+            }
+            
+            const data = await getUsers(params);
+            setUsers(data.users || []);
+            setPagination({
+              total: data.total || 0,
+              per_page: data.per_page || 10,
+              total_pages: data.total_pages || 0,
+            });
+          } catch (error) {
+            console.error("Error fetching users:", error);
+            setUsers([]);
+          } finally {
+            setLoading(false);
+          }
+        };
+        
+        fetchUsers();
+      }
+      
+      setDropdownOpen(null); // Close dropdown after action
+      
+    } catch (error) {
+      console.error(`Error performing ${action} action:`, error);
+      // Show error message to user
+      alert(`Failed to ${action} user. Please try again.`);
+      setDropdownOpen(null);
+    }
   };
 
   const toggleDropdown = (userId) => {

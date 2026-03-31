@@ -28,6 +28,24 @@ export async function getUserById(userId) {
   return request(`/admin/users/${userId}`);
 }
 
+export async function postUserActive(userId) {
+  return request(`/admin/users/${userId}/activate`, {
+    method: 'POST',
+  });
+}
+
+export async function postUserSuspend(userId) {
+  return request(`/admin/users/${userId}/suspend`, {
+    method: 'POST',
+  });
+}
+
+export async function postUserDelete(userId) {
+  return request(`/admin/users/${userId}`, {
+    method: 'DELETE',
+  });
+}
+
 // ─── Update User ─────────────────────────────────────────────────────────
 
 /**
