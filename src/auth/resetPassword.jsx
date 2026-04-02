@@ -153,7 +153,7 @@ const ResetPassword = () => {
           Reset Password
         </h2>
         <p className="text-white/45 text-[13px] text-center mb-7">
-          Enter your new admin password below.
+          Enter your new password below.
         </p>
 
         {error && (
