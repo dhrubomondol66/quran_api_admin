@@ -1,45 +1,11 @@
 services:
   - type: web
     name: quran-dashboard
-    env: static
-    buildCommand: npm run build
-    staticPublishPath: dist
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: VITE_API_BASE_URL
         value: https://quran-backend-3xc4.onrender.com
-    routes:
-      # Serve static assets directly
-      - type: file
-        source: /assets/*
-        destination: /assets
-      # Serve all other files from index.html (SPA routing)
-      - type: rewrite
-        source: /*
-        destination: /index.html
-    headers:
-      # Proper MIME types for static assets
-      - path: /assets/*.js
-        name: Content-Type
-        value: application/javascript
-      - path: /assets/*.css
-        name: Content-Type
-        value: text/css
-      - path: /assets/*.png
-        name: Content-Type
-        value: image/png
-      - path: /assets/*.jpg
-        name: Content-Type
-        value: image/jpeg
-      - path: /assets/*.svg
-        name: Content-Type
-        value: image/svg+xml
-      # Cache control for assets
-      - path: /assets/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
-      # No cache for HTML
-      - path: /*
-        name: Cache-Control
-        value: no-cache, no-store, must-revalidate
