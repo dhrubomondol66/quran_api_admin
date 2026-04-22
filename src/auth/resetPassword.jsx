@@ -17,7 +17,7 @@ const inputStyle = {
 };
 
 // Backend URL from environment
-const API_BASE = import.meta.env.VITE_API_URL || "https://quran-backend-t6hz.onrender.com";
+const API_BASE = import.meta.env.VITE_API_URL || "https://quran-backend-3xc4.onrender.com";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();

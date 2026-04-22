@@ -1,6 +1,6 @@
 // auth/authApi.js
 import axios from 'axios';
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://quran-backend-t6hz.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://quran-backend-3xc4.onrender.com";
 
 /**
  * Shared fetch helper — throws an Error with the server's message on non-2xx.
