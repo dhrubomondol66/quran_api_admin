@@ -1,4 +1,4 @@
-// services/overviewApi.js
+// services/overview.js
 import { request } from './auth';
 
 // ─── Dashboard Stats ────────────────────────────────────────────────────────
@@ -19,7 +19,8 @@ export async function getOverviewStats() {
  * @param {string} period - '7d', '30d', '90d'
  * @returns {Promise<Array<{day: string, free: number, premium: number, date: string}>>}
  */
-export async function getUserGrowth(period = '7d') {
+export async function getUserGrowth(_period = '7d') {
+  void _period;
   // Data is included in overview stats, but keeping function for compatibility
   const stats = await getOverviewStats();
   return stats.user_growth || [];
@@ -34,6 +35,7 @@ export async function getUserGrowth(period = '7d') {
  * @returns {Promise<Array<{day: string, revenue: number, date: string}>>}
  */
 export async function getRevenueData(period = '7d') {
+  void period;
   // Data is included in overview stats, but keeping function for compatibility
   const stats = await getOverviewStats();
   return stats.revenue_growth || [];
@@ -48,6 +50,7 @@ export async function getRevenueData(period = '7d') {
  * @returns {Promise<Array<{name: string, action: string, time: string}>>}
  */
 export async function getRecentActivity(limit = 10) {
+  void limit;
   // This endpoint may not exist in backend yet
   return [];
 }

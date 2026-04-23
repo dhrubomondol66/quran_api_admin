@@ -10,6 +10,7 @@ const AVATAR_COLORS = [
 
 const UserManagement = () => {
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,15 @@ const UserManagement = () => {
   const [dropdownOpen, setDropdownOpen] = useState(null); // Track which dropdown is open
 
   useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearch(search);
+      setCurrentPage(1);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [search]);
+
+  useEffect(() => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
@@ -30,8 +40,8 @@ const UserManagement = () => {
         };
         
         // Only add search parameter if it's not empty
-        if (search.trim()) {
-          params.search = search.trim();
+        if (debouncedSearch.trim()) {
+          params.search = debouncedSearch.trim();
         }
         
         const data = await getUsers(params);
@@ -51,7 +61,7 @@ const UserManagement = () => {
     };
 
     fetchUsers();
-  }, [currentPage, search]);
+  }, [currentPage, debouncedSearch, pagination.per_page]);
 
   const getInitials = (firstName, lastName) => {
     return `${firstName?.[0] || ""}${lastName?.[0] || ""}`.toUpperCase();
@@ -80,7 +90,7 @@ const UserManagement = () => {
           
         case 'delete':
           // Confirm before deleting
-          const confirmed = window.confirm('Are you sure you want to delete this user? This action cannot be undone.');
+          { const confirmed = window.confirm('Are you sure you want to delete this user? This action cannot be undone.');
           if (!confirmed) {
             setDropdownOpen(null);
             return;
@@ -118,7 +128,7 @@ const UserManagement = () => {
           };
           
           fetchUsers();
-          break;
+          break; }
           
         default:
           console.error('Unknown action:', action);
@@ -170,16 +180,6 @@ const UserManagement = () => {
     setDropdownOpen(dropdownOpen === userId ? null : userId);
   };
 
-  if (loading) {
-    return (
-      <div className="flex-1 overflow-y-auto p-7">
-        <div className="text-center py-8">
-          <div className="text-[13px] text-[#888b88]">Loading users...</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex-1 overflow-y-auto p-7">
       {/* Header */}
@@ -198,6 +198,11 @@ const UserManagement = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
+          {loading && (
+            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[11px] text-[#888b88]">
+              Searching...
+            </span>
+          )}
         </div>
         <button className="flex items-center gap-1.5 px-[18px] py-[11px] border border-[#e8eae8] rounded-[10px] bg-white text-[13px] font-medium text-[#5a6b5e] cursor-pointer hover:bg-[#f0f4f1] whitespace-nowrap transition-colors">
           <Filter size={14} /> Filter
