@@ -6,7 +6,7 @@ import { request } from './auth';
  * @returns {Promise<{admins: Array<{email: string, first_name: string, last_name: string, role: string, is_current_user: boolean}>}>}
  */
 export async function getAdminProfiles() {
-  return request('/admin/profile/admins');
+  return request('/admin-dashboard/profile-settings');
 }
 
 /**
@@ -16,7 +16,7 @@ export async function getAdminProfiles() {
 export async function getCurrentAdminUsername() {
   try {
     const profiles = await getAdminProfiles();
-    const currentAdmin = profiles.admins?.find(admin => admin.is_current_user);
+    const currentAdmin = profiles?.admins?.find(admin => admin.is_current_user);
     return currentAdmin?.first_name || currentAdmin?.email || 'Admin';
   } catch (error) {
     console.error('Failed to get admin username:', error);

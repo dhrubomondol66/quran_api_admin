@@ -1,6 +1,6 @@
 // auth/authApi.js
 import axios from 'axios';
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://quran-backend-3xc4.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://quran-app-backend-8b57.onrender.com";
 
 /**
  * Shared fetch helper — throws an Error with the server's message on non-2xx.
@@ -21,6 +21,10 @@ export async function request(endpoint, options = {}) {
   
   if (options.data) {
     config.data = options.data;
+    if (options.data instanceof FormData) {
+      delete config.headers["Content-Type"];
+      delete config.headers["content-type"];
+    }
   }
 
   try {
@@ -61,7 +65,7 @@ export function clearToken() {
  * @returns {{ token: string, user: object }}
  */
 export async function login({ email, password }) {
-  const data = await request("/admin/admin-login", {
+  const data = await request("/admin-dashboard/admin-login", {
     method: "POST",
     data: { email, password },
   });
@@ -80,7 +84,7 @@ export async function login({ email, password }) {
 export async function forgotPassword({ email }) {
   // Backend expects email as query parameter, not in request body
   try {
-    return await request(`/admin/admin-forgot-password?email=${encodeURIComponent(email)}`, {
+    return await request(`/admin-dashboard/forgot-password?email=${encodeURIComponent(email)}`, {
       method: "POST",
       data: {}, // Empty body since email is in query params
     });
@@ -100,7 +104,7 @@ export async function forgotPassword({ email }) {
 export async function resetPassword({ token, password, confirm_password }) {
   // Backend expects token, password, and confirm_password as query parameters, not in request body
   try {
-    const response = await request(`/admin/admin-reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}&confirm_password=${encodeURIComponent(confirm_password)}`, {
+    const response = await request(`/admin-dashboard/reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}&confirm_password=${encodeURIComponent(confirm_password)}`, {
       method: "POST",
       data: {}, // Empty body since all params are in query params
     });
@@ -137,7 +141,7 @@ export async function logout() {
   const token = getToken();
   clearToken();
 
-  return request("/admin/admin-logout", {
+  return request("/admin-dashboard/admin-logout", {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
   });

@@ -1,12 +1,13 @@
 // component/Sidebar.jsx
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, Settings, LogOut, BookOpen } from "lucide-react";
 import QariLogo from "../assets/Background.png";
 
 const navigation = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
   { name: "User Management", href: "/user-management", icon: Users },
+  { name: "Library", href: "/library", icon: BookOpen },
   { name: "Profile Settings", href: "/profile-setting", icon: Settings },
 ];
 

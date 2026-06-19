@@ -8,7 +8,7 @@ import { request } from './auth';
  * @returns {Promise<{admins: Array<{email: string, first_name: string, last_name: string, role: string, is_current_user: boolean}>}>}
  */
 export async function getAdminProfiles() {
-  return request('/admin/profile/admins');
+  return request('/admin-dashboard/profile-settings');
 }
 
 // ─── Update Profile ───────────────────────────────────────────────────────
@@ -23,7 +23,7 @@ export async function getAdminProfiles() {
  * @returns {Promise<Object>}
  */
 export async function updateProfile(profileData) {
-  return request('/admin/profile/update', {
+  return request('/admin-dashboard/profile-settings', {
     method: 'PUT',
     data: profileData,
   });

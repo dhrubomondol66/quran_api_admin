@@ -8,7 +8,7 @@ import { request } from './auth';
  * @returns {Promise<{total_users: number, premium_users: number, free_users: number, total_revenue: number, revenue_change_percent: number, user_growth: Array, revenue_growth: Array}>}
  */
 export async function getOverviewStats() {
-  return request('/admin/dashboard');
+  return request('/admin-dashboard/overview');
 }
 
 // ─── User Growth Data ─────────────────────────────────────────────────────

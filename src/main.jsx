@@ -6,6 +6,7 @@ import ProtectedRoute from './auth/ProtectedRoute.jsx'
 import DashboardLayout from './component/dashboardLayout.jsx'
 import Overview from './pages/overview.jsx'
 import UserManagement from './pages/userManagement.jsx'
+import Library from './pages/library.jsx'
 import ProfileSetting from './pages/profileSetting.jsx'
 import ForgotPassword from './auth/forgotPassword.jsx'
 import ResetPassword from './auth/resetPassword.jsx'
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')).render(
         }>
           <Route path="/overview" element={<Overview />} />
           <Route path="/user-management" element={<UserManagement />} />
+          <Route path="/library" element={<Library />} />
           <Route path="/profile-setting" element={<ProfileSetting />} />
         </Route>
       </Routes>

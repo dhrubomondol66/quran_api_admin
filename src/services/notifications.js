@@ -6,7 +6,7 @@ import { request } from './auth';
  * @returns {Promise<{message: string}>}
  */
 export async function registerDeviceToken(payload) {
-  return request('/notifications/device-token', {
+  return request('/settings/notifications/device-token', {
     method: 'POST',
     data: payload,
   });
@@ -17,7 +17,7 @@ export async function registerDeviceToken(payload) {
  * @returns {Promise<Array>}
  */
 export async function getNotifications() {
-  return request('/notifications/notifications');
+  return request('/settings/notifications');
 }
 
 /**
@@ -26,7 +26,7 @@ export async function getNotifications() {
  * @returns {Promise<{message: string}>}
  */
 export async function markNotificationRead(notificationId) {
-  return request(`/notifications/notifications/${notificationId}/read`, {
+  return request(`/settings/notifications/${notificationId}/read`, {
     method: 'POST',
   });
 }
@@ -36,7 +36,7 @@ export async function markNotificationRead(notificationId) {
  * @returns {Promise<{message: string}>}
  */
 export async function markAllNotificationsRead() {
-  return request('/notifications/notifications/mark-all-read', {
+  return request('/settings/notifications/mark-all-read', {
     method: 'POST',
   });
 }
@@ -46,7 +46,7 @@ export async function markAllNotificationsRead() {
  * @returns {Promise<{unread_count: number}>}
  */
 export async function getUnreadNotificationCount() {
-  return request('/notifications/notifications/unread-count');
+  return request('/settings/notifications/unread-count');
 }
 
 /**
@@ -55,7 +55,7 @@ export async function getUnreadNotificationCount() {
  * @returns {Promise<{message: string}>}
  */
 export async function deleteNotification(notificationId) {
-  return request(`/notifications/notifications/${notificationId}`, {
+  return request(`/settings/notifications/${notificationId}`, {
     method: 'DELETE',
   });
 }

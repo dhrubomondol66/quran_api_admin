@@ -14,7 +14,7 @@ import { request } from './auth';
  */
 export async function getUsers(params = {}) {
   const queryString = new URLSearchParams(params).toString();
-  return request(`/admin/users?${queryString}`);
+  return request(`/admin-dashboard/user-management?${queryString}`);
 }
 
 // ─── Get User by ID ─────────────────────────────────────────────────────
@@ -25,24 +25,24 @@ export async function getUsers(params = {}) {
  * @returns {Promise<Object>}
  */
 export async function getUserById(userId) {
-  return request(`/admin/users/${userId}`);
+  return request(`/admin-dashboard/user-management/${userId}`);
 }
 
-export async function postUserActive(userId) {
-  return request(`/admin/users/${userId}/activate`, {
-    method: 'POST',
+export async function postUserActive(userId, action) {
+  return request(`/admin-dashboard/user-management/${userId}/${action}`, {
+    method: action === 'active' ? 'POST' : 'DELETE',
   });
 }
 
-export async function postUserSuspend(userId) {
-  return request(`/admin/users/${userId}/suspend`, {
-    method: 'POST',
+export async function postUserSuspend(userId, action) {
+  return request(`/admin-dashboard/user-management/${userId}/${action}`, {
+    method: action === 'suspend' ? 'POST' : 'DELETE',
   });
 }
 
-export async function postUserDelete(userId) {
-  return request(`/admin/users/${userId}`, {
-    method: 'DELETE',
+export async function postUserDelete(userId, action) {
+  return request(`/admin-dashboard/user-management/${userId}/${action}`, {
+    method: action === 'delete' ? 'DELETE' : 'POST',
   });
 }
 
@@ -55,7 +55,7 @@ export async function postUserDelete(userId) {
  * @returns {Promise<Object>}
  */
 export async function updateUser(userId, userData) {
-  return request(`/admin/users/${userId}`, {
+  return request(`/admin-dashboard/user-management/${userId}`, {
     method: 'PUT',
     data: userData,
   });
@@ -69,7 +69,7 @@ export async function updateUser(userId, userData) {
  * @returns {Promise<{message: string}>}
  */
 export async function deleteUser(userId) {
-  return request(`/admin/users/${userId}`, {
+  return request(`/admin-dashboard/user-management/${userId}`, {
     method: 'DELETE',
   });
 }
@@ -83,7 +83,7 @@ export async function deleteUser(userId) {
  * @returns {Promise<Object>}
  */
 export async function changeUserPlan(userId, plan) {
-  return request(`/admin/users/${userId}/plan`, {
+  return request(`/admin-dashboard/user-management/${userId}/plan`, {
     method: 'PATCH',
     data: { plan },
   });
