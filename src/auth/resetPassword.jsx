@@ -17,11 +17,12 @@ const inputStyle = {
 };
 
 // Backend URL from environment
-const API_BASE = import.meta.env.VITE_API_URL || "https://quran-backend-3xc4.onrender.com";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://quran-app-backend-8b57.onrender.com";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token") || "";
+  const email = searchParams.get("email") || "";
 
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -31,8 +32,8 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Guard: no token
-  if (!token) {
+  // Guard: no token or email
+  if (!token || !email) {
     return (
       <div 
         className="fixed inset-0 flex items-center justify-center overflow-hidden"
@@ -47,7 +48,7 @@ const ResetPassword = () => {
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 w-full max-w-[420px] rounded-[20px] px-10 py-12 text-center" style={cardStyle}>
           <QariLogo />
-          <p className="text-[#e57368] mt-4">Invalid or missing reset link.</p>
+          <p className="text-[#e57368] mt-4 font-semibold">Invalid or missing reset link parameters.</p>
           <button onClick={() => navigate("/")} className="mt-6 text-[#c9a84c] hover:underline text-sm">
             ← Back to Login
           </button>
@@ -72,11 +73,20 @@ const ResetPassword = () => {
 
     setLoading(true);
     try {
-      // Backend expects token, password, and confirm_password as query parameters
-      const res = await fetch(`${API_BASE}/admin/admin-reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}&confirm_password=${encodeURIComponent(confirm)}`, {
+      // Ensure the endpoint has a trailing slash for Django
+      const endpoint = API_BASE.endsWith('/') 
+        ? `${API_BASE}admin-dashboard/reset-password/`
+        : `${API_BASE}/admin-dashboard/reset-password/`;
+
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}), // Empty body since all params are in query params
+        body: JSON.stringify({
+          email: email,
+          token: token,
+          new_password: password,
+          confirm_password: confirm
+        }),
       });
 
       const data = await res.json();

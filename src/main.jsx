@@ -22,6 +22,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<AuthFlow />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/admin-dashboard/admin-reset-password" element={<ResetPassword />} />
 
         {/* Protected dashboard routes */}
         <Route element={

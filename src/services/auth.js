@@ -123,11 +123,10 @@ export async function login({ email, password }) {
  * @returns {{ message: string }}
  */
 export async function forgotPassword({ email }) {
-  // Backend expects email as query parameter, not in request body
   try {
-    return await request(`/admin-dashboard/forgot-password?email=${encodeURIComponent(email)}`, {
+    return await request('/admin-dashboard/forgot-password/', {
       method: "POST",
-      data: {}, // Empty body since email is in query params
+      data: { email },
     });
   } catch (error) {
     console.log('Forgot password error:', error.response?.data);
@@ -142,12 +141,16 @@ export async function forgotPassword({ email }) {
  * @param {{ token: string, password: string, confirm_password: string }} payload
  * @returns {{ message: string }}
  */
-export async function resetPassword({ token, password, confirm_password }) {
-  // Backend expects token, password, and confirm_password as query parameters, not in request body
+export async function resetPassword({ email, token, password, confirm_password }) {
   try {
-    const response = await request(`/admin-dashboard/reset-password?token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}&confirm_password=${encodeURIComponent(confirm_password)}`, {
+    const response = await request('/admin-dashboard/reset-password/', {
       method: "POST",
-      data: {}, // Empty body since all params are in query params
+      data: { 
+        email,
+        token,
+        new_password: password,
+        confirm_password
+      },
     });
     return response;
   } catch (error) {
