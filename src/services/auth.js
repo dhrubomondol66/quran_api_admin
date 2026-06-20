@@ -2,13 +2,45 @@
 import axios from 'axios';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://quran-app-backend-8b57.onrender.com";
 
+const requestCache = new Map();
+
+/**
+ * Clears the request cache.
+ */
+export function clearRequestCache() {
+  requestCache.clear();
+}
+
 /**
  * Shared fetch helper — throws an Error with the server's message on non-2xx.
+ * Implements client-side GET caching and cache invalidation on mutate requests.
  */
 export async function request(endpoint, options = {}) {
+  const method = (options.method || 'GET').toUpperCase();
+  
+  // Ensure the URL path ends with a trailing slash for Django compatibility
+  let normalizedEndpoint = endpoint;
+  const [path, query] = endpoint.split('?');
+  if (path && !path.endsWith('/')) {
+    normalizedEndpoint = `${path}/${query ? `?${query}` : ''}`;
+  }
+
+  const url = `${BASE_URL}${normalizedEndpoint}`;
+
+  // Clear cache on any modification request (POST, PUT, DELETE, etc.)
+  if (method !== 'GET') {
+    requestCache.clear();
+  }
+
+  const cacheKey = `${method}:${url}:${JSON.stringify(options.data || '')}:${JSON.stringify(options.params || '')}`;
+
+  if (method === 'GET' && requestCache.has(cacheKey)) {
+    return requestCache.get(cacheKey);
+  }
+
   const config = {
-    url: `${BASE_URL}${endpoint}`,
-    method: options.method || 'GET',
+    url,
+    method,
     headers: { "Content-Type": "application/json", ...options.headers },
     ...options,
   };
@@ -27,21 +59,29 @@ export async function request(endpoint, options = {}) {
     }
   }
 
-  try {
-    const res = await axios(config);
+  const promise = (async () => {
+    try {
+      const res = await axios(config);
 
-    if (res.status < 200 || res.status >= 300) {
-      throw new Error(res.data?.message || "Something went wrong. Please try again.");
-    }
+      if (res.status < 200 || res.status >= 300) {
+        throw new Error(res.data?.message || "Something went wrong. Please try again.");
+      }
 
-    return res.data;
-  } catch (error) {
-    if (error.response?.status === 422) {
-      const errorMessage = error.response.data?.message || error.response.data?.error || 'Invalid request data';
-      throw new Error(errorMessage);
+      return res.data;
+    } catch (error) {
+      if (error.response?.status === 422) {
+        const errorMessage = error.response.data?.message || error.response.data?.error || 'Invalid request data';
+        throw new Error(errorMessage);
+      }
+      throw new Error(error.response?.data?.message || error.message || "Something went wrong. Please try again.");
     }
-    throw new Error(error.response?.data?.message || error.message || "Something went wrong. Please try again.");
+  })();
+
+  if (method === 'GET') {
+    requestCache.set(cacheKey, promise);
   }
+
+  return promise;
 }
 
 // ─── Auth token helpers ────────────────────────────────────────────────────────
@@ -70,7 +110,8 @@ export async function login({ email, password }) {
     data: { email, password },
   });
 
-  if (data.token) saveToken(data.token);
+  const token = data.token || data.access;
+  if (token) saveToken(token);
   return data;
 }
 

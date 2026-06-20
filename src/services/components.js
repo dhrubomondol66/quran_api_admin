@@ -1,23 +1,32 @@
 import { request } from './auth';
 
-// ─── Component Management ───────────────────────────────────────────────────
 /**
- * Gets the current admin's username from the admin profiles
- * @returns {Promise<{admins: Array<{email: string, first_name: string, last_name: string, role: string, is_current_user: boolean}>}>}
+ * Gets the current admin's profile settings from backend
+ * @returns {Promise<{email: string}>}
  */
 export async function getAdminProfiles() {
-  return request('/admin-dashboard/profile-settings');
+  return request('/admin-dashboard/profile-settings/');
 }
 
 /**
- * Gets the current admin's username (simplified for topbar usage)
+ * Gets the current admin's username (simplified for topbar usage from localStorage)
  * @returns {Promise<string>}
  */
 export async function getCurrentAdminUsername() {
   try {
-    const profiles = await getAdminProfiles();
-    const currentAdmin = profiles?.admins?.find(admin => admin.is_current_user);
-    return currentAdmin?.first_name || currentAdmin?.email || 'Admin';
+    const userJson = localStorage.getItem("user");
+    if (userJson) {
+      const user = JSON.parse(userJson);
+      if (user.username) {
+        return user.username;
+      }
+    }
+    // Fallback: fetch from backend profile
+    const profile = await getAdminProfiles();
+    if (profile && profile.email) {
+      return profile.email.split('@')[0];
+    }
+    return 'Admin';
   } catch (error) {
     console.error('Failed to get admin username:', error);
     return 'Admin';

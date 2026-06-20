@@ -8,9 +8,9 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   return (
-    <div className="h-screen flex overflow-hidden bg-[#f4f6f4]">
+    <div className="h-screen flex overflow-hidden bg-[#f4f6f4] dark:bg-[#070b09]">
       {/* Sidebar — desktop */}
-      <div className="hidden md:flex md:flex-shrink-0">
+      <div className="hidden md:flex md:flex-shrink-0 border-r border-transparent dark:border-[#1b2f24]">
         <Sidebar />
       </div>
 

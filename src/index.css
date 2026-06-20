@@ -1,5 +1,33 @@
 /* src/index.css */
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f6f4;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #070b09;
+}
+::-webkit-scrollbar-thumb {
+  background: #2d5a3d;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #1c3a27;
+  border: 2px solid #070b09;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a84c;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #c9a84c;
+}
 
 /* :root {
   --text: #6b6375;

@@ -7,6 +7,8 @@ import DashboardLayout from './component/dashboardLayout.jsx'
 import Overview from './pages/overview.jsx'
 import UserManagement from './pages/userManagement.jsx'
 import Library from './pages/library.jsx'
+import Leaderboard from './pages/leaderboard.jsx'
+import Subscriptions from './pages/subscriptions.jsx'
 import ProfileSetting from './pages/profileSetting.jsx'
 import ForgotPassword from './auth/forgotPassword.jsx'
 import ResetPassword from './auth/resetPassword.jsx'
@@ -30,6 +32,8 @@ createRoot(document.getElementById('root')).render(
           <Route path="/overview" element={<Overview />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/library" element={<Library />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/profile-setting" element={<ProfileSetting />} />
         </Route>
       </Routes>

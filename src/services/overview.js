@@ -54,3 +54,31 @@ export async function getRecentActivity(limit = 10) {
   // This endpoint may not exist in backend yet
   return [];
 }
+
+/**
+ * Fetches the global leaderboard data
+ * @returns {Promise<Array<{id: number, username: string, email: string, points: number, streak: number}>>}
+ */
+export async function getLeaderboard() {
+  return request('/admin-dashboard/leaderboard/');
+}
+
+/**
+ * Fetches all subscription plans from the backend
+ * @returns {Promise<Array>} List of plans
+ */
+export async function getSubscriptionPlans() {
+  return request('/admin-dashboard/subscription-plans/');
+}
+
+/**
+ * Creates or updates a subscription plan
+ * @param {{ interval: 'monthly' | 'yearly', price: number, is_active?: boolean }} payload
+ * @returns {Promise<Object>}
+ */
+export async function saveSubscriptionPlan(payload) {
+  return request('/admin-dashboard/subscription-plans/', {
+    method: 'POST',
+    data: payload,
+  });
+}
