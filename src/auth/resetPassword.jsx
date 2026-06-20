@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Lock, Eye, EyeOff, CheckCircle } from "lucide-react";
 import QariLogo from "../components/QariLogo";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import backgroungimg from "../assets/Desktop - 2.png";
 
 const cardStyle = {
@@ -21,8 +21,11 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://quran-app-backend
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  
   const token = searchParams.get("token") || "";
   const email = searchParams.get("email") || "";
+  const isAdmin = location.pathname.includes("admin-reset-password");
 
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -73,10 +76,11 @@ const ResetPassword = () => {
 
     setLoading(true);
     try {
-      // Ensure the endpoint has a trailing slash for Django
+      // Determine the endpoint path based on route
+      const pathSuffix = isAdmin ? "admin-dashboard/reset-password/" : "auth/reset-password/";
       const endpoint = API_BASE.endsWith('/') 
-        ? `${API_BASE}admin-dashboard/reset-password/`
-        : `${API_BASE}/admin-dashboard/reset-password/`;
+        ? `${API_BASE}${pathSuffix}`
+        : `${API_BASE}/${pathSuffix}`;
 
       const res = await fetch(endpoint, {
         method: "POST",
