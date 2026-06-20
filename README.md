@@ -1,16 +1,72 @@
-# React + Vite
+# QARI Admin Dashboard 🌙✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the **QARI Admin Dashboard**, a premium, high-performance web interface designed for managing features, subscribers, library contents, and leaderboards of the **QARI Quran Recitation Platform**.
 
-Currently, two official plugins are available:
+Built on **React 18** and **Vite**, the interface features a responsive dual-theme (Light & Dark) glassmorphic design system tailored for administrative control.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **⚡ Premium Dashboard Overview**: Monitor total users, real-time revenue, active premium/free users, and review weekly interactive analytics graphs.
+*   **👥 User Management**: Seamlessly manage active profiles, toggle account state, suspension logs, and reset user data directly.
+*   **📚 Library Resource Manager**: Add, edit, or remove Quran audio, PDFs, and books with instant server-side push notification broadcast updates.
+*   **🏆 Leaderboard Administration**: Monitor global points, reading streaks, and manage ranking resets.
+*   **💳 Subscription Pricing Controls**: Update monthly/yearly intervals, prices, and sync items with Stripe product catalogs automatically.
+*   **🌗 Glassmorphism Theme Engine**: Supports dark & light mode toggles with optimized Tailwind custom selectors.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Technology Stack
+
+*   **Core**: React (v18), React Router DOM (v6), Vite
+*   **Styles**: Tailwind CSS (with custom dark mode variants), Vanilla CSS
+*   **Data Visualization**: Recharts (fully customized theme colors)
+*   **Icons**: Lucide React
+
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org) installed on your machine.
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/dhrubomondol66/quran_api_admin.git
+   cd quran_api_admin
+   ```
+
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Configure your Environment Variables:
+   Create a `.env` file in the root folder:
+   ```env
+   VITE_API_BASE_URL=http://localhost:8000
+   ```
+
+4. Run the development server locally:
+   ```bash
+   npm run dev
+   ```
+
+5. Build the application for production:
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 👥 Developers
+
+👨‍💻 **MD. ABDUL HAMIM**
+*   **Role**: Software Developer
+*   **Company**: DataSoft Manufacturing and Assembly Limited
+
+👨‍💻 **Dhrubo Chandro Mondal**
+*   **Role**: Full Stack Developer
